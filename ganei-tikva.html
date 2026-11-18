@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>גני תקווה | קהילה יוצרת עיר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Ganei Tikva brand palette, sampled from the logo */
+  --garden:#003C61;      /* navy: wordmark & emblem */
+  --garden-2:#2C75A8;    /* mid blue: wordmark stripes */
+  --b-green:#70B244;
+  --b-cyan:#00B2C6;
+  --b-lav:#80A0D3;
+  --b-orange:#F48221;
+  --leaf:#E7F0F7;
+  --paper:#F7FAFC;
+  --surface:#FFFFFF;
+  --ink:#0F2233;
+  --muted:#4A5F70;
+  --line:#D5E1EA;
+  --sun:#F48221;
+  --sun-ink:#2B1300;
+  --alert:#B5452B;
+  --serif:"Rubik", "Arial Hebrew", Arial, sans-serif;
+  --sans:"Assistant", "Arial Hebrew", Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --garden:#8CC4EA;
+    --garden-2:#5FA8DA;
+    --b-green:#86C85C;
+    --b-cyan:#2CC6D8;
+    --b-lav:#9DB6E0;
+    --b-orange:#F7943F;
+    --leaf:#10304A;
+    --paper:#071B2A;
+    --surface:#0D2638;
+    --ink:#E6EEF4;
+    --muted:#A3B6C5;
+    --line:#1E3F57;
+    --sun:#F7943F;
+    --sun-ink:#2B1300;
+    --alert:#F08A6E;
+    color-scheme: dark;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* brand stripe: the four slanted bars from the logo */
+.stripes{display:flex;gap:10px;align-items:center}
+.stripes i{display:block;width:34px;height:12px;transform:skewX(-30deg)}
+.stripes i:nth-child(1){background:var(--b-orange);transform:none;margin-inline-end:6px}
+.stripes i:nth-child(2){background:var(--b-lav)}
+.stripes i:nth-child(3){background:var(--b-cyan)}
+.stripes i:nth-child(4){background:var(--b-green)}
+.logo-img{height:56px;width:auto;display:block}
+@media (prefers-color-scheme: dark){.logo-img{background:#fff;border-radius:10px;padding:4px 8px}}
+.hero-arcs{position:absolute;top:0;left:0;width:min(520px,42vw);height:auto;pointer-events:none}
+@media (max-width:560px){.hero-arcs{display:none}}
+.hero h1{font-weight:900}
+
+/* top utility bar */
+.utility{background:var(--garden);color:var(--paper);font-size:14px}
+@media (prefers-color-scheme: dark){.utility{background:#03121E;color:var(--ink)}}
+.utility .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:40px;flex-wrap:wrap}
+.utility nav{display:flex;gap:20px}
+.utility a{text-decoration:none;opacity:.9}
+.utility a:hover{opacity:1;text-decoration:underline}
+.hotline{display:flex;align-items:center;gap:8px;font-weight:700}
+.hotline b{background:var(--sun);color:var(--sun-ink);padding:1px 10px;border-radius:20px}
+
+/* header */
+header.main{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header.main .wrap{display:flex;align-items:center;justify-content:space-between;min-height:76px;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand svg{width:44px;height:44px;flex:none}
+.brand-name{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.1}
+.brand-name small{display:block;font-family:var(--sans);font-weight:400;font-size:13px;color:var(--muted)}
+.mainnav{display:flex;gap:4px}
+.mainnav a{text-decoration:none;font-weight:600;padding:8px 14px;border-radius:8px}
+.mainnav a:hover{background:var(--leaf)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:inherit;color:var(--ink)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:72px 0 96px;background:var(--leaf)}
+
+.hero .wrap{position:relative}
+.greet{font-size:18px;color:var(--muted);margin-bottom:10px}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(44px,7vw,86px);line-height:1;letter-spacing:-.02em;color:var(--garden)}
+.hero .stripes{margin:18px 0 4px}
+.hero h1 .tiki-mark{display:inline-block;width:.8em;height:.8em;vertical-align:-.06em;margin-inline-start:.12em}
+.hero p.lede{font-size:20px;max-width:56ch;margin-top:14px;color:var(--ink)}
+
+.ask{margin-top:36px;background:var(--surface);border:2px solid var(--garden);border-radius:22px;box-shadow:0 18px 0 -8px var(--garden);max-width:900px}
+.ask form{display:flex;align-items:center;gap:12px;padding:10px 10px 10px 10px}
+.ask label.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ask .avatar{flex:none;width:52px;height:52px;margin-inline-start:6px}
+.ask input{flex:1;min-width:0;border:none;background:transparent;font:inherit;font-size:22px;color:var(--ink);padding:14px 4px}
+.ask input::placeholder{color:var(--muted)}
+.ask input:focus{outline:none}
+.ask:focus-within{box-shadow:0 18px 0 -8px var(--sun)}
+.ask button{flex:none;background:var(--garden);color:var(--paper);border:none;border-radius:14px;font:inherit;font-weight:700;font-size:18px;padding:16px 28px;cursor:pointer}
+@media (prefers-color-scheme: dark){.ask button{color:#071B2A}}
+.ask button:disabled{opacity:.6;cursor:wait}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:900px}
+.chips span{font-size:15px;color:var(--muted);align-self:center;margin-inline-end:4px}
+.chip{background:var(--surface);border:1px solid var(--line);color:var(--ink);font:inherit;font-size:15px;padding:7px 14px;border-radius:30px;cursor:pointer}
+.chip:hover{border-color:var(--garden)}
+
+.answer{display:none;border-top:1px dashed var(--line);padding:20px 26px 24px}
+.answer.show{display:block}
+.answer .who{font-weight:700;color:var(--garden);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.answer .body{white-space:pre-wrap;max-width:72ch}
+.answer .note{margin-top:14px;font-size:13px;color:var(--muted)}
+.dots span{display:inline-block;width:8px;height:8px;margin:0 2px;border-radius:50%;background:var(--garden);animation:b 1s infinite}
+.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+
+/* alert strip */
+.notice{background:var(--sun);color:var(--sun-ink)}
+.notice .wrap{display:flex;gap:14px;align-items:center;padding-top:12px;padding-bottom:12px;font-weight:600}
+.notice strong{font-weight:700}
+
+/* sections */
+section.block{padding:72px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:28px}
+.head h2{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4vw,42px);line-height:1.1}
+.head a{font-weight:700;color:var(--garden-2)}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--garden)}
+.svc{padding:24px 20px 26px;border-bottom:1px solid var(--line);border-inline-start:1px solid var(--line);text-decoration:none;display:flex;flex-direction:column;gap:6px;min-height:170px}
+.svc:nth-child(4n+1){border-inline-start:none}
+.svc:hover{background:var(--surface)}
+.svc svg{width:34px;height:34px;color:var(--garden-2);margin-bottom:8px}
+.svc:nth-child(4n+1) svg{color:var(--b-green)}.svc:nth-child(4n+2) svg{color:var(--b-cyan)}
+.svc:nth-child(4n+3) svg{color:var(--b-lav)}.svc:nth-child(4n+4) svg{color:var(--b-orange)}
+.svc h3{font-size:20px;font-weight:700}
+.svc p{font-size:15px;color:var(--muted)}
+
+/* news + events */
+.split{display:grid;grid-template-columns:1.6fr 1fr;gap:48px}
+.lead-story{display:grid;grid-template-columns:1fr;gap:16px;text-decoration:none}
+.photo{aspect-ratio:16/9;border-radius:6px;background:var(--leaf);position:relative;overflow:hidden}
+.photo svg{position:absolute;inset:0;width:100%;height:100%}
+.lead-story time,.story time{font-size:14px;color:var(--muted)}
+.lead-story h3{font-family:var(--serif);font-size:30px;line-height:1.2;font-weight:700}
+.lead-story p{color:var(--muted);max-width:60ch}
+.stories{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.story{text-decoration:none;border-top:1px solid var(--line);padding-top:14px}
+.story h4{font-size:19px;line-height:1.35;margin-top:4px}
+.story:hover h4,.lead-story:hover h3{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+
+.events{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 22px}
+.events h3{font-family:var(--serif);font-size:24px;padding:16px 0 8px}
+.ev{display:grid;grid-template-columns:62px 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--line)}
+.ev:first-of-type{border-top:none}
+.date{text-align:center;border:2px solid var(--garden);border-radius:8px;padding:4px 0;line-height:1.1;color:var(--garden)}
+.date b{display:block;font-family:var(--serif);font-size:26px;font-weight:900}
+.date small{font-size:13px;font-weight:700}
+.ev h4{font-size:17px}
+.ev p{font-size:14px;color:var(--muted)}
+
+/* neighbourhoods */
+.hoods{background:var(--garden);color:var(--paper)}
+@media (prefers-color-scheme: dark){.hoods{background:#0A2236;color:var(--ink)}}
+.hoods .head h2{color:inherit}
+.hoods .head p{max-width:46ch;opacity:.85}
+.hood-list{display:flex;flex-wrap:wrap;gap:12px}
+.hood-list a{text-decoration:none;border:1px solid currentColor;border-radius:40px;padding:10px 22px;font-weight:600;font-size:18px;opacity:.9}
+.hood-list a:hover{background:var(--sun);color:var(--sun-ink);border-color:var(--sun);opacity:1}
+
+/* contact */
+.contact{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.contact div{border-top:4px solid var(--b-green);padding-top:16px}
+.contact div:nth-child(2){border-color:var(--b-cyan)}.contact div:nth-child(3){border-color:var(--b-orange)}
+.contact h3{font-size:20px;margin-bottom:6px}
+.contact p{color:var(--muted)}
+.contact .big{font-family:var(--serif);font-weight:900;font-size:40px;color:var(--garden);line-height:1.1}
+
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+footer nav{display:flex;gap:18px;flex-wrap:wrap}
+
+.a11y{position:fixed;bottom:20px;left:20px;width:54px;height:54px;border-radius:50%;background:var(--garden);color:var(--paper);border:3px solid var(--surface);display:grid;place-items:center;cursor:pointer;z-index:20}
+@media (prefers-color-scheme: dark){.a11y{color:#071B2A}}
+.a11y svg{width:28px;height:28px}
+
+@media (max-width:900px){
+  .mainnav{display:none}
+  .menu-btn{display:block}
+  .services{grid-template-columns:repeat(2,1fr)}
+  .svc:nth-child(4n+1){border-inline-start:1px solid var(--line)}
+  .svc:nth-child(2n+1){border-inline-start:none}
+  .split{grid-template-columns:1fr}
+  .contact{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .utility nav{display:none}
+  .hero{padding:48px 0 72px}
+  .ask form{flex-wrap:wrap}
+  .ask .avatar{width:40px;height:40px}
+  .ask input{font-size:18px}
+  .ask button{width:100%}
+  .stories{grid-template-columns:1fr}
+  .services{grid-template-columns:1fr}
+  .svc{border-inline-start:none !important;min-height:auto}
+}
+@media (prefers-reduced-motion: reduce){.dots span{animation:none;opacity:.6}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Tiki: a small sprouting seedling with a face -->
+    <symbol id="tiki" viewBox="0 0 64 64">
+      <circle cx="32" cy="38" r="22" fill="#00B2C6"/>
+      <path d="M32 16 C32 10 28 5 20 5 C20 12 25 16 32 16 Z" fill="#70B244"/>
+      <path d="M32 16 C32 9 37 3 46 3 C46 11 40 16 32 16 Z" fill="#F48221"/>
+      <path d="M32 16 V22" stroke="#70B244" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="25" cy="37" r="3" fill="#003C61"/>
+      <circle cx="39" cy="37" r="3" fill="#003C61"/>
+      <path d="M25 46 Q32 52 39 46" stroke="#003C61" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="utility">
+  <div class="wrap">
+    <div class="hotline">מוקד עירוני 24/7 <b>106</b></div>
+    <nav aria-label="קישורים מהירים">
+      <a href="#">English</a><a href="#">Русский</a><a href="#">العربية</a><a href="#">הצהרת נגישות</a><a href="#">אזור אישי</a>
+    </nav>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="גני תקווה, דף הבית"><img class="logo-img" alt="גני תקווה, קהילה יוצרת עיר" src="data:image/jpeg;base64,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"></a>
+    <nav class="mainnav" aria-label="ניווט ראשי">
+      <a href="#">תושבים</a><a href="#">חינוך</a><a href="#">רישוי ובנייה</a><a href="#">תרבות ופנאי</a><a href="#">רווחה</a><a href="#">העירייה</a>
+    </nav>
+    <button class="menu-btn" aria-label="פתיחת תפריט">תפריט</button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <svg class="hero-arcs" viewBox="0 0 520 200" aria-hidden="true" fill="none" stroke-linecap="round">
+    <defs>
+      <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".55" stop-color="#fff" stop-opacity="1"/></linearGradient>
+      <mask id="arcmask"><rect width="520" height="200" fill="url(#fade)"/></mask>
+    </defs>
+    <g mask="url(#arcmask)" stroke-width="8">
+      <path d="M0 20 C180 30 360 80 500 190" stroke="var(--b-green)"/>
+      <path d="M0 30 C170 44 330 96 455 190" stroke="var(--b-cyan)"/>
+      <path d="M0 40 C160 58 300 112 410 190" stroke="var(--b-lav)"/>
+      <path d="M0 50 C150 72 270 128 365 190" stroke="var(--b-orange)"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <p class="greet" id="greet">ערב טוב, תושבי גני תקווה</p>
+    <h1>תיקי לשירותך<svg class="tiki-mark" aria-hidden="true"><use href="#tiki"/></svg></h1>
+    <div class="stripes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="lede">שאלו את תיקי כל דבר על העיר: ארנונה, פינוי גזם, רישום לגנים, חוגים ואירועים. תיקי מבין שפה רגילה, לא צריך לדעת איך קוראים לטופס.</p>
+
+    <div class="ask" role="search">
+      <form id="askForm">
+        <svg class="avatar" aria-hidden="true"><use href="#tiki"/></svg>
+        <label class="sr" for="q">שאלה לתיקי</label>
+        <input id="q" type="text" autocomplete="off" placeholder="למשל: מתי מפנים גזם ברחוב הדקל?">
+        <button type="submit" id="askBtn">שאלו את תיקי</button>
+      </form>
+      <div class="answer" id="answer" aria-live="polite">
+        <div class="who"><svg width="22" height="22" aria-hidden="true"><use href="#tiki"/></svg>תיקי</div>
+        <div class="body" id="answerBody"></div>
+        <p class="note">תיקי הוא עוזר דיגיטלי ועלול לטעות. לפניות רשמיות פנו למוקד 106.</p>
+      </div>
+    </div>
+
+    <div class="chips">
+      <span>שאלות נפוצות:</span>
+      <button class="chip" type="button">איך משלמים ארנונה?</button>
+      <button class="chip" type="button">הרשמה לגני ילדים לשנה הבאה</button>
+      <button class="chip" type="button">יש מפגע ברחוב, למי פונים?</button>
+      <button class="chip" type="button">מה קורה בעיר בסוף השבוע?</button>
+    </div>
+  </div>
+</section>
+
+<div class="notice" role="status">
+  <div class="wrap">
+    <strong>עבודות תשתית:</strong> רחוב הנרקיס סגור לתנועה בין השעות 09:00–15:00 עד יום חמישי. מומלץ להשתמש ברחוב הזית.
+  </div>
+</div>
+
+<section class="block">
+  <div class="wrap">
+    <div class="head"><h2>שירותים מקוונים</h2><a href="#">לכל השירותים</a></div>
+    <div class="services">
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+        <h3>תשלום ארנונה</h3><p>תשלום חד־פעמי, הוראת קבע ובקשה להנחה</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17v.5"/></svg>
+        <h3>דיווח על מפגע</h3><p>בור בכביש, תאורה, פסולת או מים, עם צילום ומיקום</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 5l8 6v9H4z"/><path d="M10 20v-5h4v5"/></svg>
+        <h3>רישום לגנים ובתי ספר</h3><p>רישום, העברות ובקשות שיבוץ לשנת הלימודים</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>
+        <h3>היתרי בנייה</h3><p>הגשת בקשה ומעקב אחר סטטוס התיק</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21V11"/><path d="M12 13c0-4-3-7-7-7 0 4 3 7 7 7zM12 11c0-4 3-7 7-7 0 4-3 7-7 7z"/></svg>
+        <h3>פינוי גזם וגרוטאות</h3><p>זימון פינוי ולוח ימי האיסוף לפי שכונה</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+        <h3>חוגים ותרבות</h3><p>הרשמה לחוגים, כרטיסים למופעים ולהרצאות</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="9" width="16" height="9" rx="2"/><path d="M7 9V7a5 5 0 0 1 10 0v2M8 18v2M16 18v2"/></svg>
+        <h3>תו חניה לתושב</h3><p>הנפקה, חידוש ותו חניה לאורח</p>
+      </a>
+      <a class="svc" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>
+        <h3>אזור אישי</h3><p>כל הפניות, החשבונות והאישורים שלכם במקום אחד</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap split">
+    <div>
+      <div class="head"><h2>חדשות העיר</h2><a href="#">לכל החדשות</a></div>
+      <a class="lead-story" href="#">
+        <div class="photo">
+          <svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="225" fill="var(--leaf)"/>
+            <rect y="160" width="400" height="65" fill="var(--b-green)" opacity=".6"/>
+            <circle cx="320" cy="60" r="28" fill="var(--b-orange)"/>
+            <g fill="var(--b-green)"><circle cx="80" cy="120" r="44"/><rect x="76" y="140" width="8" height="40"/>
+            <circle cx="170" cy="130" r="34"/><rect x="166" y="150" width="8" height="30"/>
+            <circle cx="250" cy="125" r="40"/><rect x="246" y="145" width="8" height="35"/></g>
+          </svg>
+        </div>
+        <time>15 בנובמבר 2026</time>
+        <h3>הפארק העירוני החדש בשכונת הגנים נפתח לציבור</h3>
+        <p>שבעה דונם של מדשאות, מתקני כושר, פינת כלבים וגינה קהילתית שתנוהל על ידי התושבים. הפארק פתוח בכל יום מ־06:00 עד 23:00.</p>
+      </a>
+      <div class="stories">
+        <a class="story" href="#"><time>12 בנובמבר 2026</time><h4>נפתחה ההרשמה לגני הילדים לשנת הלימודים תשפ״ח</h4></a>
+        <a class="story" href="#"><time>10 בנובמבר 2026</time><h4>קו שאטל חדש יחבר את גני תקווה לתחנת הרכבת</h4></a>
+        <a class="story" href="#"><time>8 בנובמבר 2026</time><h4>מליאת העירייה אישרה את תקציב 2027</h4></a>
+        <a class="story" href="#"><time>5 בנובמבר 2026</time><h4>מבצע חורף: עיר נקייה ושיפוץ תעלות הניקוז</h4></a>
+      </div>
+    </div>
+
+    <aside class="events" aria-label="אירועים קרובים">
+      <h3>אירועים קרובים</h3>
+      <div class="ev"><div class="date"><b>20</b><small>נובמבר</small></div><div><h4>שוק איכרים בכיכר העירונית</h4><p>שישי 08:00–13:00, כיכר העירייה</p></div></div>
+      <div class="ev"><div class="date"><b>22</b><small>נובמבר</small></div><div><h4>הופעת ג׳אז בפארק</h4><p>ראשון 19:30, הפארק העירוני, כניסה חופשית</p></div></div>
+      <div class="ev"><div class="date"><b>25</b><small>נובמבר</small></div><div><h4>מפגש תושבים עם ראש העירייה</h4><p>רביעי 20:00, המתנ״ס</p></div></div>
+      <div class="ev"><div class="date"><b>28</b><small>נובמבר</small></div><div><h4>שעת סיפור לגיל הרך</h4><p>שבת 10:30, הספרייה העירונית</p></div></div>
+      <div class="ev"><div class="date"><b>3</b><small>דצמבר</small></div><div><h4>הדלקת נר ראשון של חנוכה</h4><p>חמישי 17:00, כיכר העירייה</p></div></div>
+    </aside>
+  </div>
+</section>
+
+<section class="block hoods">
+  <div class="wrap">
+    <div class="head"><h2>השכונה שלי</h2><p>ימי פינוי, גני ילדים, מוסדות ועבודות קרובות לפי השכונה שלכם.</p></div>
+    <div class="hood-list">
+      <a href="#">גני תקווה הוותיקה</a><a href="#">שכונת הגנים</a><a href="#">גבעת הזיתים</a><a href="#">נווה גנים</a><a href="#">שכונת הפארק</a><a href="#">גני תקווה החדשה</a>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="head"><h2>יצירת קשר</h2></div>
+    <div class="contact">
+      <div><h3>מוקד עירוני</h3><p class="big">106</p><p>זמין 24 שעות ביממה, גם בוואטסאפ</p></div>
+      <div><h3>קבלת קהל</h3><p>א׳, ג׳, ה׳ 08:30–13:00<br>ב׳ 16:00–18:30<br>בניין העירייה, רחוב הדקל 1</p></div>
+      <div><h3>לשכת ראש העירייה</h3><p>03-0000000<br>lishka@ganeytikva.example<br>תיאום פגישות בטלפון בלבד</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 גני תקווה, קהילה יוצרת עיר</span>
+    <nav aria-label="קישורי תחתית"><a href="#">מכרזים</a><a href="#">דרושים</a><a href="#">פרוטוקולים</a><a href="#">מדיניות פרטיות</a><a href="#">הצהרת נגישות</a></nav>
+  </div>
+</footer>
+
+<button class="a11y" aria-label="תפריט נגישות">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4.5" r="1.8" fill="currentColor"/><path d="M5 8.5 12 10l7-1.5M12 10v4.5M12 14.5 9 21M12 14.5 15 21"/></svg>
+</button>
+
+<script>
+// Greeting by time of day
+(function(){
+  const h = new Date().getHours();
+  const g = h < 12 ? "בוקר טוב" : h < 17 ? "צהריים טובים" : h < 21 ? "ערב טוב" : "לילה טוב";
+  document.getElementById("greet").textContent = g + ", תושבי גני תקווה";
+})();
+
+const form = document.getElementById("askForm");
+const input = document.getElementById("q");
+const btn = document.getElementById("askBtn");
+const answer = document.getElementById("answer");
+const body = document.getElementById("answerBody");
+
+const SYSTEM = `אתה "תיקי", העוזר הדיגיטלי של עיריית גני תקווה בישראל. ענה בעברית פשוטה, חמה וקצרה (עד 5 משפטים).
+זהו אתר הדגמה: אל תמציא מספרי טלפון, סכומים או תאריכים מדויקים. כשצריך פרט מדויק, הפנה לשירות המתאים באתר (תשלום ארנונה, דיווח על מפגע, רישום לגנים, היתרי בנייה, פינוי גזם, חוגים, תו חניה, אזור אישי) או למוקד העירוני 106.
+אם השאלה לא קשורה לעירייה, ענה בקצרה והחזר בעדינות לנושאי העיר.`;
+
+async function ask(q){
+  if(!q.trim()) { input.focus(); return; }
+  answer.classList.add("show");
+  body.innerHTML = '<span class="dots" aria-label="תיקי חושב"><span></span><span></span><span></span></span>';
+  btn.disabled = true;
+  try{
+    const res = await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-6",
+        max_tokens:1000,
+        system:SYSTEM,
+        messages:[{role:"user",content:q}]
+      })
+    });
+    const data = await res.json();
+    const text = (data.content||[]).map(i=>i.text||"").join("\n").trim();
+    body.textContent = text || fallback(q);
+  }catch(e){
+    body.textContent = fallback(q);
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+function fallback(q){
+  if(/ארנונה/.test(q)) return "אפשר לשלם ארנונה דרך השירות \"תשלום ארנונה\" באתר: תשלום חד־פעמי בכרטיס אשראי או הקמת הוראת קבע. שם גם מגישים בקשה להנחה.";
+  if(/גן|גני|רישום|בית ספר/.test(q)) return "הרישום לגני הילדים פתוח עכשיו בשירות \"רישום לגנים ובתי ספר\". צריך תעודת זהות של ההורים ושל הילד, והשיבוץ נשלח בהודעה לאזור האישי.";
+  if(/מפגע|בור|תאורה|פסולת/.test(q)) return "דווחו דרך \"דיווח על מפגע\" באתר, עם תמונה ומיקום, או התקשרו למוקד 106 בכל שעה. תקבלו מספר פנייה למעקב.";
+  if(/גזם|גרוטאות/.test(q)) return "ימי פינוי הגזם משתנים לפי שכונה. בחרו את השכונה שלכם ב\"השכונה שלי\" או זמנו פינוי מיוחד בשירות \"פינוי גזם וגרוטאות\".";
+  return "אני כאן כדי לעזור בכל מה שקשור לעיר. נסו לשאול על ארנונה, חינוך, מפגעים, פינוי גזם או אירועים, ולכל דבר דחוף המוקד העירוני זמין ב־106.";
+}
+
+form.addEventListener("submit", e => { e.preventDefault(); ask(input.value); });
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => { input.value = c.textContent; ask(c.textContent); }));
+</script>
+</body>
+</html>
